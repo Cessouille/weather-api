@@ -25,7 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * only the outbound HTTP calls to Nominatim/Open-Meteo are stubbed at the transport level.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        properties = "spring.main.allow-bean-definition-overriding=true")
+        properties = {
+                "spring.main.allow-bean-definition-overriding=true",
+                "app.geocoding.provider=nominatim",
+                "app.weather.provider=open-meteo"
+        })
 @AutoConfigureMockMvc
 @Import(WeatherApiEndToEndTest.MockRestClientsConfig.class)
 class WeatherApiEndToEndTest {
