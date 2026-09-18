@@ -23,10 +23,9 @@ public class WeatherService implements WeatherUseCase {
         Geocoding geocoding = geocodingClient.geocode(cityName)
                 .orElseThrow(() -> new CityNotFoundException(cityName));
 
-        double latitude = Double.parseDouble(geocoding.latitude());
-        double longitude = Double.parseDouble(geocoding.longitude());
-        log.info("Resolved city '{}' to latitude={}, longitude={}", cityName, latitude, longitude);
+        log.info("Resolved city '{}' to latitude={}, longitude={}",
+                cityName, geocoding.latitude(), geocoding.longitude());
 
-        return forecastClient.getForecast(latitude, longitude);
+        return forecastClient.getForecast(geocoding.latitude(), geocoding.longitude());
     }
 }

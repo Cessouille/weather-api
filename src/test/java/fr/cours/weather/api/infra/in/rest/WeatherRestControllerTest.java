@@ -2,7 +2,7 @@ package fr.cours.weather.api.infra.in.rest;
 
 import fr.cours.weather.api.domain.exception.CityNotFoundException;
 import fr.cours.weather.api.domain.model.Forecast;
-import fr.cours.weather.api.domain.model.Hourly;
+import fr.cours.weather.api.domain.model.HourlyForecast;
 import fr.cours.weather.api.domain.port.in.WeatherUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,13 @@ class WeatherRestControllerTest {
 
     @Test
     void getForecast_returns200WithForecastBody_whenCityIsFound() throws Exception {
-        Forecast forecast = new Forecast(48.85, 2.35, "GMT", "GMT",
-                new Hourly(List.of("2026-01-01T00:00"), List.of(5.4)));
+        Forecast forecast = new Forecast(48.85, 2.35, List.of(new HourlyForecast("2026-01-01T00:00", 5.4)));
         when(weatherUseCase.getForecastForCity("Paris")).thenReturn(forecast);
 
         mockMvc.perform(get("/weather/forecast").param("cityName", "Paris"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.latitude").value(48.85))
-                .andExpect(jsonPath("$.hourly.temperature_2m[0]").value(5.4));
+                .andExpect(jsonPath("$.hourly[0].temperatureCelsius").value(5.4));
     }
 
     @Test
