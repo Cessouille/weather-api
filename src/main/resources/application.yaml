@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: Weather API
+
+app:
+  nominatim:
+    base-url: https://nominatim.openstreetmap.org
+  open-meteo:
+    base-url: https://api.open-meteo.com/v1
+
+server:
+  servlet:
+    context-path: /api/v1
