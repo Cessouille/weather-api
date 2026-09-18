@@ -59,7 +59,7 @@ class WeatherApiEndToEndTest {
 
         mockMvc.perform(get("/weather/forecast").param("cityName", "Alès"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.hourly.temperature_2m[0]").value(12.3));
+                .andExpect(jsonPath("$.hourly[0].temperatureCelsius").value(12.3));
     }
 
     @Test
