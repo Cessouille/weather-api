@@ -3,10 +3,19 @@ spring:
     name: Weather API
 
 app:
+  geocoding:
+    provider: ban
+  weather:
+    provider: met-norway
   nominatim:
     base-url: https://nominatim.openstreetmap.org
+  ban:
+    base-url: https://api-adresse.data.gouv.fr
   open-meteo:
     base-url: https://api.open-meteo.com/v1
+  met-norway:
+    base-url: https://api.met.no/weatherapi/locationforecast/2.0
+    user-agent: "TP2-WeatherApi/1.0 celian.chausson@etu.mines-ales.fr"
 
 server:
   servlet:

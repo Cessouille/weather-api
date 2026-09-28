@@ -1,20 +1,17 @@
 package fr.cours.weather.api.infra.out.openmeteo;
 
-import fr.cours.weather.api.domain.model.Forecast;
+import fr.cours.weather.api.domain.port.out.ForecastClient;
+import fr.cours.weather.api.domain.port.out.ForecastClientContractTest;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-class OpenMeteoForecastClientTest {
+class OpenMeteoForecastClientContractTest extends ForecastClientContractTest {
 
     private MockRestServiceServer server;
     private OpenMeteoForecastClient client;
@@ -26,19 +23,26 @@ class OpenMeteoForecastClientTest {
         client = new OpenMeteoForecastClient(builder.build());
     }
 
-    @Test
-    void getForecast_parsesHourlyTemperatures() {
+    @Override
+    protected ForecastClient client() {
+        return client;
+    }
+
+    @Override
+    protected void givenForecastResponse() {
         server.expect(requestTo(containsString("/forecast")))
-                .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess("""
-                        {"latitude":48.85,"longitude":2.35,"timezone":"GMT","timezone_abbreviation":"GMT",
-                         "hourly":{"time":["2026-01-01T00:00"],"temperature_2m":[5.4]}}
+                        {"latitude":44.1277,"longitude":4.0817,"timezone":"GMT","timezone_abbreviation":"GMT",
+                         "hourly":{"time":["2026-01-01T00:00"],"temperature_2m":[12.3]}}
                         """, MediaType.APPLICATION_JSON));
+    }
 
-        Forecast forecast = client.getForecast(48.85, 2.35);
-
-        assertThat(forecast.latitude()).isEqualTo(48.85);
-        assertThat(forecast.longitude()).isEqualTo(2.35);
-        assertThat(forecast.hourly().temperature()).containsExactly(5.4);
+    @Override
+    protected void givenEmptyForecastResponse() {
+        server.expect(requestTo(containsString("/forecast")))
+                .andRespond(withSuccess("""
+                        {"latitude":44.1277,"longitude":4.0817,"timezone":"GMT","timezone_abbreviation":"GMT",
+                         "hourly":{"time":[],"temperature_2m":[]}}
+                        """, MediaType.APPLICATION_JSON));
     }
 }

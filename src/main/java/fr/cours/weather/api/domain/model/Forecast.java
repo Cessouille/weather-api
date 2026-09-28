@@ -1,20 +1,10 @@
 package fr.cours.weather.api.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public record Forecast(
-
-        Double latitude,
-
-        Double longitude,
-
-        String timezone,
-
-        @JsonProperty("timezone_abbreviation")
-        String timezoneAbbreviation,
-
-        Hourly hourly
+        double latitude,
+        double longitude,
+        List<HourlyForecast> hourly
 ) {
 }

@@ -4,5 +4,5 @@ import fr.cours.weather.api.domain.model.Forecast;
 
 public interface WeatherUseCase {
 
-    Forecast getForecastForCity(String cityName);
+    Forecast getForecastForCity(String address, boolean demo);
 }
