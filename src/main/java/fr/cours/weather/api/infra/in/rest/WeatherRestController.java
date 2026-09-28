@@ -21,12 +21,15 @@ public class WeatherRestController {
     private final WeatherUseCase weatherUseCase;
 
     @GetMapping("/forecast")
-    public Forecast getForecast(
-            @RequestParam
-            @NotBlank(message = "cityName must not be blank")
-            String cityName
+    public ForecastResponse getForecast(
+            @RequestParam @NotBlank(message = "address must not be blank")
+            String address,
+            @RequestParam(required = false)
+            Boolean demo
     ) {
-        log.info("REST request to get forecast for city: {}", cityName);
-        return weatherUseCase.getForecastForCity(cityName);
+        boolean demoMode = Boolean.TRUE.equals(demo);
+        log.info("REST request to get forecast for address: {} with demo: {}", address, demoMode);
+        Forecast forecast = weatherUseCase.getForecastForCity(address, demoMode);
+        return ForecastResponse.of(address, forecast);
     }
 }
