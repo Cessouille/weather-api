@@ -66,8 +66,9 @@ class WeatherApiSovereignProvidersEndToEndTest {
                          ]}}
                         """, MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(get("/weather/forecast").param("cityName", "Alès"))
+        mockMvc.perform(get("/weather/forecast").param("address", "Alès"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.address").value("Alès"))
                 .andExpect(jsonPath("$.hourly[0].temperatureCelsius").value(12.3));
     }
 

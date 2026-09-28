@@ -7,6 +7,7 @@ import fr.cours.weather.api.domain.model.HourlyForecast;
 import fr.cours.weather.api.domain.port.out.ForecastClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Component
+@Primary
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app.weather", name = "provider", havingValue = "open-meteo", matchIfMissing = true)
 public class OpenMeteoForecastClient implements ForecastClient {

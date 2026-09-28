@@ -7,12 +7,14 @@ import fr.cours.weather.api.domain.model.HourlyForecast;
 import fr.cours.weather.api.domain.port.out.ForecastClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Component
+@Primary
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app.weather", name = "provider", havingValue = "met-norway")
 public class MetNorwayForecastClient implements ForecastClient {

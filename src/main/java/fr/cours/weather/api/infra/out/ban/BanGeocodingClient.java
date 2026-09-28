@@ -5,6 +5,7 @@ import fr.cours.weather.api.domain.model.Geocoding;
 import fr.cours.weather.api.domain.port.out.GeocodingClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
+@Qualifier("live")
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app.geocoding", name = "provider", havingValue = "ban")
 public class BanGeocodingClient implements GeocodingClient {
